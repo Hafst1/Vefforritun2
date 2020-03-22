@@ -1,0 +1,64 @@
+.btn-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 20px;
+  text-align: center;
+}
+
+.btn {
+  font-size: 1em;
+}
+
+.runway {
+  padding: 20px 0;
+  border-bottom: solid 1px black;
+  border-top: solid 1px black;
+  margin: 20px 0;
+}
+
+@keyframes run-boy {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 864px 0;
+  }
+}
+
+@keyframes move {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100vw);
+  }
+}
+
+#running {
+  width: calc(864px / 8);
+  height: calc(280px / 2);
+  background: url(resources/running.png);
+}
+
+.animate-boy {
+  animation: run-boy 2s steps(8) infinite, move 5s 1 linear forwards;
+}
+
+@keyframes run-girl {
+  from {
+    background-position: 0;
+  }
+  to {
+    background-position: 1536px;
+  }
+}
+
+#running-girl {
+  width: calc(1536px / 6);
+  height: 256px;
+  background: url(resources/running-girl.png);
+}
+
+.animate-girl {
+  animation: run-girl 1s steps(6) infinite, move 4s 1 linear forwards;
+}

@@ -1,0 +1,87 @@
+* { box-sizing: border-box; }
+
+.container {
+  padding: 20px;
+}
+
+button {
+  background-image: linear-gradient(to bottom right, #F694C1, #E4C1F9);
+  border-radius: 5px;
+  color: white;
+  font-size: 1em;
+  padding: 8px 15px;
+}
+
+button:focus {
+  outline: 0;
+}
+
+.spring {
+  width: 250px;
+  transform: scaleX(0.4);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.intro {
+    position: relative;
+    height: 800px;
+    width: 1200px;
+    background-image: url(../resources/intro.png);
+    background-size: 1200px 800px;
+    background-repeat: no-repeat;
+}
+
+.intro .layover {
+    position: absolute;
+    height: 221px;
+    width: 440px;
+    bottom: 132px;
+    right: 380px;
+    transition: all .5s ease-in;
+}
+
+.intro .layover:hover {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, .4);
+}
+
+.micromachine-track-container {
+    position: relative;
+    height: 800px;
+    width: 1200px;
+    overflow: hidden;
+}
+
+.micromachine-track {
+    height: 100%;
+    width: 100%;
+    background-image: url(../resources/track.png);
+    background-repeat: no-repeat;
+    background-position: 300px -20px;
+    transform: scale(2);
+}
+
+.micromachine-car {
+    background-image: url(../resources/vehicles.png);
+    position: absolute;
+    height: 27px;
+    width: 18px;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+}
+
+.products .product {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+}

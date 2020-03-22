@@ -1,0 +1,112 @@
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v16/S6uyw4BMUTPHjx4wWw.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v16/S6u9w4BMUTPHh6UVSwiPHA.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), local('Raleway-Regular'), url(https://fonts.gstatic.com/s/raleway/v14/1Ptug8zYS_SKggPNyC0ISg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Raleway Bold'), local('Raleway-Bold'), url(https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwJYtWqZPBQ.ttf) format('truetype');
+}
+body {
+  display: grid;
+  grid-template-columns: 250px auto 250px;
+}
+nav {
+  background-color: #80FFE8;
+}
+footer {
+  display: grid;
+  grid-template-columns: auto auto;
+  background-color: #80FFE8;
+}
+#left-aside {
+  background-color: #ECCBD9;
+  text-align: center;
+  font-size: 1.7em;
+}
+#right-aside {
+  background-color: #ECCBD9;
+  text-align: center;
+  color: white;
+}
+#right-aside p {
+  text-align: initial;
+}
+#main-section {
+  display: grid;
+  grid-template-rows: repeat(6, auto);
+}
+#hero {
+  display: grid;
+  grid-template-columns: 30% 70%;
+}
+#hero img {
+  margin: auto;
+  width: 200px;
+}
+#hero p {
+  align-content: center;
+  margin-block-start: auto;
+  margin-block-end: auto;
+}
+#banner {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  background-color: #83BCFF;
+}
+#banner img {
+  margin: auto;
+  width: 200px;
+}
+#banner p {
+  text-align: center;
+  color: white;
+}
+.items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.items img {
+  width: 150px;
+}
+.items li:nth-child(1) {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  margin: auto;
+  background-color: #E1EFF6;
+}
+.items li:nth-child(2) {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  margin: auto;
+}
+.items li:nth-child(3) {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  margin: auto;
+  background-color: #E1EFF6;
+}
+.items li:nth-child(4) {
+  background-color: #E1EFF6;
+  grid-column-end: span 3;
+}
+.icon-container {
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}

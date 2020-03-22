@@ -1,0 +1,89 @@
+#login-window {
+  display: flex;
+  flex-direction: column;
+}
+
+#login-form button {
+  float: right;	
+  margin-top: 20px;
+  width: 100%;
+}
+
+#lobby-modal .modal-body input {
+  margin-bottom: 20px;
+}
+
+
+
+
+#login-page {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  border: solid;
+  border-width: thin;
+  margin: 110px;
+  height: 300px;
+  width: 600px;
+}
+
+#login-form {
+  width: 80%;
+}
+
+#login-form button {
+  float: right;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.chat-window {
+  position: relative;
+  border: solid;
+  border-width: thin;
+  width: 800px;
+  height: 600px;
+  margin-top: 40px;
+  overflow: hidden;
+}
+
+.chat-window h4 {
+  border-bottom: solid;
+  border-width: thin;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  text-align: center;
+}
+
+.chat-window .input-container {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+.chat-window .input-container input {
+  width: 80%;
+  padding: 5px;
+}
+
+.chat-window .input-container button {
+  padding: 5px;
+}
+
+.chat-window .users {
+  position: absolute;
+  right: 0;
+  top: 40px;
+  padding: 20px;
+  width: 60px;
+  height: 100%;
+  border: dashed 1px black;
+}
+
+.chat-window .users .user {
+  border-bottom: solid 1px black;
+  border-top: solid 1px black;
+  padding: 10px 0;
+}

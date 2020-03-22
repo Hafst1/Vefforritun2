@@ -1,0 +1,113 @@
+/**
+
+Solution for class exercise I
+
+*/
+
+/* 1 */
+.wizard-wrapper {
+    transition: transform 2s ease-in-out;
+}
+
+.wizard-wrapper:hover {
+    transform: translate(0, -40px);
+}
+
+.wizard {
+    transition: transform 2s ease-in 2s;
+}
+
+.wizard:hover {
+    transform: scale(1, 1.5);
+}
+
+/* 2 */
+.button-2 {
+    border-width: 1px;
+    transition: border-color 1s ease-in-out,
+                opacity 1s ease-in-out; 
+}
+
+.button-2:hover {
+    border-style: dashed;
+    border-color: white;
+    opacity: 0.7;
+}
+
+/* 3 */
+@keyframes spring-movement {
+    from {
+        transform: scaleX(0.5) translateX(0%);
+    }
+    to {
+        transform: scaleX(1) translateX(100%);
+    }
+}
+
+.spring {
+    animation: spring-movement 0.5s ease-in-out infinite alternate;
+}
+
+/* 4. */
+
+@keyframes car-movement {
+    69% {
+        transform: rotate(0deg);
+        bottom: 490px;
+    }
+    70% {
+        transform: rotate(45deg);
+    }
+    100% {
+        transform: translate(110px, -390px) rotate(45deg);
+    }
+}
+
+#car-1 {
+    left: 486px;
+    bottom: 210px;
+    background-position: -20px -26px;
+    animation: car-movement 3s linear forwards 3s;
+}
+
+#car-2 {
+    left: 466px;
+    bottom: 210px;
+    background-position: -143px -26px;
+    animation: car-movement 4s linear forwards 3s;
+}
+
+#car-3 {
+    left: 446px;
+    bottom: 210px;
+    background-position: -20px -139px;
+    animation: car-movement 5s linear forwards 3s;
+}
+
+/* 5. */
+@keyframes line-around {
+    12.5% { border-color: lightpink; }
+    37.5% { border-color: lightgreen; }
+    62.5% { border-color: lightpink; }
+    87.5% {border-color: lightgreen; }
+    100% {border-color: lightpink; }
+}
+
+.products .product:hover:after {
+    position: absolute;
+    content: '';
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border: 5px;
+}
+
+.products .product {
+    transition: transform 1s ease-in-out,
+                line-around 3s ease-in-out;
+}
+
+.products .product:hover {
+    transform: rotateX(25deg) skewX(-15deg);
+}

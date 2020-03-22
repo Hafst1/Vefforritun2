@@ -1,0 +1,99 @@
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v16/S6uyw4BMUTPHjx4wWw.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v16/S6u9w4BMUTPHh6UVSwiPHA.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), local('Raleway-Regular'), url(https://fonts.gstatic.com/s/raleway/v14/1Ptug8zYS_SKggPNyC0ISg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Raleway Bold'), local('Raleway-Bold'), url(https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwJYtWqZPBQ.ttf) format('truetype');
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Lato';
+}
+body main > * {
+  padding: 20px;
+}
+body main nav img {
+  width: 100px;
+}
+body main section img {
+  width: 150px;
+}
+body main .items li {
+  padding: 20px;
+}
+body main .items li img {
+  width: 100px;
+}
+body main footer img {
+  width: 75px;
+}
+body main footer .icon-container .icon {
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  margin-right: 25px;
+  height: 35px;
+  width: 35px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Raleway';
+  margin: 0;
+}
+ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+ul.items {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+a {
+  text-decoration: none;
+  color: #000000;
+}
+aside {
+  padding: 40px;
+}
+aside#left-aside ul li {
+  font-size: 1.7em;
+  margin-bottom: 20px;
+}
+aside#left-aside ul li a {
+  color: #FFFFFF;
+}
+aside#right-aside p {
+  font-size: 0.8em;
+}
+aside#right-aside img {
+  width: 150px;
+}

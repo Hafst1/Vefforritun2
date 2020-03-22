@@ -1,0 +1,94 @@
+@import "variables.less";
+
+html, body {
+    height: 100%;
+}
+
+body {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Lato';
+    main {
+        & > * {
+            padding: 20px;
+        }
+        nav {
+            img {
+                width: 100px;
+            }
+        }
+        section {
+            img {
+                width: 150px;
+            }
+        }
+        .items {
+            li {
+                padding: 20px;
+                img {
+                    width: 100px;
+                }
+            }
+        }
+        footer {
+            img {
+                width: 75px;
+            }
+            .icon-container {
+                .icon {
+                    display: inline-block;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position: 50% 50%;
+                    margin-right: 25px;
+                    height: 35px;
+                    width: 35px;
+                }
+            }
+        }
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Raleway';
+    margin: 0;
+}
+
+ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+    &.items {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: @black;
+}
+
+aside {
+    padding: 40px;
+    &#left-aside {
+        ul {
+            li {
+                font-size: @leftAsideFontSize;
+                margin-bottom: 20px;
+                a {
+                    color: @white;
+                }
+            }
+        }
+    }
+    &#right-aside {
+        p {
+            font-size: .8em;
+        }
+        img {
+            width: 150px;
+        }
+    }
+}

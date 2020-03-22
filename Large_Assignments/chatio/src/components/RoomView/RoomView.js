@@ -11,3 +11,5 @@ const RoomView = (props) => {
     </div>
   )
 }
+
+export default RoomView;

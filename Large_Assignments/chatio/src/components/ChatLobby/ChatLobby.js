@@ -6,22 +6,12 @@ class ChatLobby extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        rooms: [],
-        users: [],
-        showModal: false,
         newRoom: {
             roomName: '',
             roomPass: ''
-        }
+        },
+        showModal: false,
     };
-  }
-  componentDidMount() {
-    socket.on('roomlist', roomList => {
-      this.setState({ ...this.state, rooms: roomList });
-    })
-    socket.on('userlist', userList => {
-      this.setState({ ...this.state, users: userList});
-    })
   }
   createRoom(room) {
     if(room.roomName === '' || room.roomPass === '') {
@@ -50,10 +40,10 @@ class ChatLobby extends React.Component {
     }
   }
   render() {
+    const {newRoom, showModal} = this.state;
+    console.log(newRoom);
     return(
       <div>
-        {console.log(this.state.rooms)}
-        {console.log(this.state.users)}
         <button type="button" className="btn btn-success" onClick={() => this.toggleModal(true)}>Create a room</button>
         <Modal visible={this.state.showModal} id="modal-lobby" >
           <div className="modal-head">

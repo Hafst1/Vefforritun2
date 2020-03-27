@@ -34,14 +34,19 @@ class LoginPage extends React.Component {
     const {nickname} = this.state;
     return (
       <div id="login-page">
-        <div className="form-group" id="login-form">
-          <form>
-            <label className="control-label" htmlFor="login-name">Pick Username:</label>
-            <input type="text" id="login-name" className="form-control" value={nickname} onChange={e => this.setState({nickname: e.target.value})} />
-          </form>
-          <button type="button" className="btn btn-primary" onClick={() => this.setNickname(nickname)} >Submit</button>
-          {this.renderRedirect()}
+        <div id="login-header">
+          <h3><strong>ChatIO</strong></h3>
         </div>
+        <div id="login-body">
+          <div className="form-group" id="login-form">
+            <form>
+              <label className="control-label" htmlFor="login-name">Pick Username:</label>
+              <input type="text" id="login-name" className="form-control" value={nickname} onChange={e => this.setState({nickname: e.target.value})} />
+            </form>
+            <button type="button" className="btn btn-primary" onClick={() => this.setNickname(nickname)} >Submit</button>
+            {this.renderRedirect()}
+          </div>
+        </div> 
       </div>
     );
   }

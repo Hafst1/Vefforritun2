@@ -1,164 +1,80 @@
 import React from "react";
 import { socket } from "../../service/socketService";
+import Modal from 'react-bootstrap4-modal';
+import RoomView from '../RoomView/RoomView';
+import UserView from '../UserView/UserView'
 
-class ChatWindow extends React.Component {
-  componentDidMount() {
-    socket.on("updateusers", (room, roomUsers, roomOps) => {
-      if (room === this.props.match.params.roomName)
-        this.setState({
-          ...this.state,
-          room: { ...this.state.room, users: roomUsers, ops: roomOps }
-        });
-    });
-    socket.on("updatechat", (room, roomMessageHistory) => {
-      if (room === this.props.match.params.roomName) {
-        this.setState({
-          ...this.state,
-          room: {
-            ...this.state.room,
-            messageHistory: this._editMessageHistory(roomMessageHistory)
-          }
-        });
-      }
-    });
-    socket.on("servermessage", (event, roomName, userName) => {
-      const { room } = this.state;
-      this.setState({
-        ...this.state,
-        room: {
-          ...this.state.room,
-          messageHistory: [
-            ...room.messageHistory,
-            this._editServermessage(event, roomName, userName)
-          ]
-        }
-      });
-    });
-    socket.on("updatetopic", (room, topic, username) => {
-      if (room === this.props.match.params.roomName) {
-        this.setState({
-          ...this.state,
-          room: { ...this.state.room, topic: topic }
-        });
-      }
-    });
-    socket.on("banned", (roomName, bannedUser, userName) => {
-      const { room } = this.state;
-      if (roomName === this.props.match.params.roomName) {
-        this.setState({
-          ...this.state,
-          room: { ...this.state.room, banned: { ...room.banned, bannedUser } }
-        });
-      }
-    });
-  }
-  _editMessageHistory(messageHistory) {
-    return messageHistory.map(m => `${m.timestamp} - ${m.nick} - ${m.message}`);
-  }
-  _editServermessage(event, room, userName) {
-    if (event === "quit") {
-      if (this.props.match.params.roomName in room) {
-        return `${userName} has disconnected from the server`;
-      }
-    } else {
-      if (room === this.props.match.params.roomName) {
-        if (event === "join") {
-          return `${userName} has joined the chatroom`;
-        } else if (event === "part") {
-          return `${userName} has left the chatroom`;
-        }
-      }
-    }
-  }
+class ChatLobby extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      room: {
-        users: {},
-        ops: {},
-        banned: {},
-        messageHistory: [],
-        topic: "No topics has been set for room..",
-        password: "",
-        locked: false
-      },
-      message: ""
+        newRoom: {
+            roomName: '',
+            roomPass: ''
+        },
+        showModal: false
     };
-  }
-  sendMessage(message) {
-    if (message === "") {
-      return false;
-    }
-    var msgObj = {
-      roomName: this.props.match.params.roomName,
-      msg: message
-    };
-    socket.emit("sendmsg", msgObj);
-    this.setState({ message: "" });
-  }
-  render() {
-    const { room, message } = this.state;
-    return (
-      <div className="chat-window">
-        <h4>
-          <strong>
-            {this.props.match.params.roomName} - Topic: {room.topic}
-          </strong>
-        </h4>
-        {/* <ChatWindow.Title /> */}
-        <ChatWindow.Messages messages={room.messageHistory} />
-        <ChatWindow.Users users={room.users} />
-        <div className="input-container input-group">
-          <input
-            type="text"
-            value={message}
-            onChange={e => this.setState({ message: e.target.value })}
-            placeholder="ENTER YOUR MESSAGE HERE..."
-          />
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => this.sendMessage(message)}
-          >
-            SEND
-          </button>
-        </div>
-      </div>
-    );
-  }
 }
+createNewRoom(room) {
+    if (room.roomName === '') { return false; }
+    const roomObj = {
+        room: room.roomName,
+        pass: room.roomPass
+    }
+    if (room.roomPass === '') {
+        roomObj.pass = undefined;
+    }
+    socket.emit('joinroom', roomObj, (resp) => {
+        if (resp === true) {
+            socket.emit('rooms');
+            this.toggleModal(false);
+            this.setState({ ...this.state, newRoom: { roomName: '', roomPass: '' } });
+        }
+        else {
+            console.log('Did not work');
+        }
+    });
+};
+toggleModal(inp) {
+    this.setState({ ...this.state, showModal: inp });
+}
+render() {
+    const { newRoom, showModal } = this.state;
+    console.log(newRoom);
+    return (
+        <div id="lobby">
+            <div id="lobby-header">
+                <h3><strong>LOBBY</strong></h3>
+            </div>
+            <div id="lobby-body">
+                <RoomView />
+                <div id="lobby-btn-div">
+                    <button type="button" className="btn btn-success" onClick={() => this.toggleModal(true)} >CREATE ROOM</button>
+                    <Modal visible={showModal} id="lobby-modal">
+                        <div className="modal-header">
+                            <h5 className="modal-title">Create a room</h5>
+                        </div>
+                        <div className="modal-body">
+                            <label className="control-label" htmlFor="room-name">Room name:</label>
+                            <input type="text" name="name-of-room" id="room-name" className="form-control" value={newRoom.roomName}
+                                onChange={e => this.setState({ ...this.state, newRoom: { roomName: e.target.value, roomPass: newRoom.roomPass } })} />
+                            <label className="control-label" htmlFor="room-pass">Room password (optional):</label>
+                            <input type="password" name="pass-of-room" id="room-pass" className="form-control" value={newRoom.roomPass}
+                                onChange={e => this.setState({ ...this.state, newRoom: { roomName: newRoom.roomName, roomPass: e.target.value } })} />
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" onClick={() => this.toggleModal(false)}>Cancel</button>
+                            <button type="button" className="btn btn-primary" onClick={() => this.createNewRoom(newRoom)}>Submit</button>
+                        </div>
+                    </Modal>
+                </div>
+                <div id="lobby-users-list">
+                    <UserView />
+                </div>
+            </div>
+        </div>
+    )
+}
+};
 
-// ChatWindow.Title = () => (
-//     <h3>
-//         <strong>CHATIO</strong>
-//         {/* <span className="first">C</span>
-//         <span className="second">h</span>
-//         <span className="third">a</span>
-//         <span className="fourth">t</span>
-//         <span className="fifth">.</span>
-//         <span className="sixth">i</span>
-//         <span className="seventh">o</span> */}
-//     </h3>
-// );
-
-ChatWindow.Messages = props => (
-  <div className="messages">
-    {props.messages.map(m => (
-      <div key={m} className="message">
-        {m}
-      </div>
-    ))}
-  </div>
-);
-
-ChatWindow.Users = props => (
-  <div className="users">
-    {Object.keys(props.users).map((keyName, keyIndex) => (
-      <div key={keyIndex} className="user">
-        {props.users[keyName]}
-      </div>
-    ))}
-  </div>
-);
-
-export default ChatWindow;
+export default ChatLobby;

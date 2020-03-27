@@ -1,32 +1,34 @@
+body {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+/* Login */
 #login-window {
   display: flex;
   flex-direction: column;
+  border: solid 2px;
+  margin: 120px;
+  height: 350px;
+  width: 700px;
 }
 
-#login-form button {
-  float: right;	
-  margin-top: 20px;
-  width: 100%;
-}
-
-#lobby-modal .modal-body input {
-  margin-bottom: 20px;
-}
-
-
-
-
-#login-page {
+#login-header {
   display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
-  border: solid;
-  border-width: thin;
-  margin: 110px;
-  height: 300px;
-  width: 600px;
+  height: 15%;
+  border-bottom: solid 2px;
+  background-color: #c3d1da;
+}
+
+#login-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 50px;
+  height: 85%;
 }
 
 #login-form {
@@ -34,56 +36,180 @@
 }
 
 #login-form button {
-  float: right;
   margin-top: 20px;
   width: 100%;
 }
 
-.chat-window {
-  position: relative;
-  border: solid;
-  border-width: thin;
-  width: 800px;
-  height: 600px;
-  margin-top: 40px;
-  overflow: hidden;
+/* Lobby */
+#lobby {
+  display: flex;
+  flex-direction: column;
+  border: solid 2px;
+  margin-top: 50px;
+  width: 1050px;
+  height: 650px;
 }
 
-.chat-window h4 {
-  border-bottom: solid;
+#lobby-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: solid 2px;
+  height: 10%;
+  background-color: #c3d1da;
+}
+
+#lobby-body {
+  display: flex;
+  flex-direction: row;
+  height: 90%;
+}
+
+#lobby-btn-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+}
+
+#lobby-btn-div .btn-success {
+  height: 100px;
+}
+
+#lobby-modal .modal-body input {
+  margin-bottom: 20px;
+}
+
+#room-view {
+  display: flex;
+  width: 60%;
+  flex-direction: column;
+  overflow: scroll;
+  padding: 10px 10px 10px 20px;
+}
+
+.room-view-item {
+  border: solid;
   border-width: thin;
-  padding-top: 7px;
-  padding-bottom: 7px;
+  border-radius: 20px;
+  margin: 15px;
+  padding: 20px;
+  background-color: #c3d1da;
+}
+
+.room-view-item p {
+  font-size: 12px;
+}
+
+#lobby-users-list {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  align-items: center;
+  border-left: solid;
+  border-width: thin;
+  margin: 30px 0px;
+  overflow: scroll;
+}
+
+#lobby-users-list a {
+  margin: 5px 0px;
+  color: #030303;
+  font-size: 16px;
+}
+
+#lobby-users {
+  display: flex;
+  flex-direction: column;
   text-align: center;
 }
 
-.chat-window .input-container {
-  position: absolute;
-  width: 100%;
-  bottom: 0;
+/* Chat */
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  border: solid 2px;
+  width: 1050px;
+  height: 650px;
+  margin-top: 50px;
 }
 
-.chat-window .input-container input {
+.chat-window-header {
+  display: flex;
+  height: 10%;
+  justify-content: center;
+  align-items: center;
+  border-bottom: solid 2px;
+  background-color: #c3d1da;
+}
+
+.chat-window-body {
+  display: flex;
+  flex-direction: row;
+  height: 90%;
+}
+
+.chat-window-msg-inp {
+  display: flex;
+  flex-direction: column;
   width: 80%;
-  padding: 5px;
 }
 
-.chat-window .input-container button {
-  padding: 5px;
+.chat-window-messages {
+  display: flex;
+  height: 90%;
+  margin: 20px 30px 0px 40px;
+  overflow: scroll;
 }
 
-.chat-window .users {
-  position: absolute;
-  right: 0;
-  top: 40px;
-  padding: 20px;
-  width: 60px;
-  height: 100%;
-  border: dashed 1px black;
+.chat-window-message-cont {
+  width: 85%;
 }
 
-.chat-window .users .user {
-  border-bottom: solid 1px black;
-  border-top: solid 1px black;
-  padding: 10px 0;
+.message {
+  border: solid;
+  border-width: thin;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 15px 10px;
+  min-height: 70px;
+  background-color: #c3d1da;
+}
+
+.chat-window-input {
+  display: flex;
+  flex-direction: row;
+  height: 10%;
+}
+
+.chat-window-input input {
+  width: 85%;
+  padding-left: 10px;
+}
+
+.chat-window-input button {
+  width: 15%;
+}
+
+.chat-window-users {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-left: solid;
+  border-width: thin;
+  margin: 20px 0px 80px 0px;
+  overflow: scroll;
+  width: 20%;
+}
+
+.user {
+  margin-bottom: 10px;
+}
+
+.private-chat-window-msg-inp {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }

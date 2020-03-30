@@ -126,7 +126,105 @@ body {
 }
 
 /* Chat */
-.chat-window {
+#chatroom {
+  display: flex;
+  margin-top: 50px;
+  width: 1250px;
+  height: 650px;
+}
+
+#buttons-list {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+
+#buttons-list .btn {
+  height: 60px;
+}
+
+#buttons-list .btn-danger {
+  margin: 90px 0px 30px 0px;
+}
+
+#buttons-list .btn-success {
+  margin: 10px 0px;
+}
+
+#ops-ban-list-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+  text-align: center;
+}
+
+#ops-list {
+  border: solid 2px;
+  width: 100%;
+  margin-top: 80px;
+}
+
+#ops-list div {
+  padding-top: 10px;
+  height: 250px;
+  overflow: scroll;
+}
+
+#ops-list div div {
+  padding-top: 0px;
+  height: 70px;
+}
+
+#ops-list div h6 {
+  border-bottom: solid;
+  border-width: thin;
+  padding-bottom: 5px;
+  margin: 0px 0px 5px 0px;
+}
+
+#ops-list p {
+  margin-bottom: 5px;
+}
+
+#ban-list {
+  border: solid 2px;
+  width: 100%;
+  margin-top: 40px;
+}
+
+#ban-list div {
+  padding-top: 10px;
+  height: 250px;
+  overflow: scroll;
+}
+
+#ban-list div h6 {
+  border-bottom: solid;
+  border-width: thin;
+  padding-bottom: 5px;
+  margin: 0px 0px 5px 0px;
+}
+
+#ban-list div div {
+  padding-top: 0px;
+  height: 70px;
+}
+
+#ban-list p {
+  margin-bottom: 5px;
+}
+
+.group-chat-window {
+  display: flex;
+  flex-direction: column;
+  border: solid 2px;
+  margin: 0px 20px;
+  width: 950px;
+  height: 650px;
+}
+
+.private-chat-window {
   display: flex;
   flex-direction: column;
   border: solid 2px;
@@ -206,6 +304,14 @@ body {
 
 .user {
   margin-bottom: 10px;
+}
+
+.user p {
+  margin-bottom: 5px;
+}
+
+.user .btn {
+  margin: 2px;
 }
 
 .private-chat-window-msg-inp {

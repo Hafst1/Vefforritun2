@@ -40,7 +40,6 @@ toggleModal(inp) {
 }
 render() {
     const { newRoom, showModal } = this.state;
-    console.log(newRoom);
     return (
         <div id="lobby">
             <div id="lobby-header">

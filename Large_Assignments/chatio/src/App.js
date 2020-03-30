@@ -32,8 +32,6 @@ class App extends Component {
     });
   }
   render() {
-    console.log(this.state.rooms);
-    console.log(this.state.users);
     return (
       <ChatProvider value={this.state}>
         <div>

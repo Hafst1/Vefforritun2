@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { hot } from "react-hot-loader";
-import "./App.css";
-import { socket } from "./service/socketService";
-import { Switch, Route } from "react-router-dom";
-import LoginPage from "./components/LoginPage/LoginPage";
-import ChatLobby from "./components/ChatLobby/ChatLobby";
-import ChatWindow from "./components/ChatWindow/ChatWindow";
-import { ChatProvider } from './context/ChatContext'
-import PrivateChatWindow from "./components/PrivateChatWindow/PrivateChatWindow";
+import React, { Component } from 'react';
+import { hot } from 'react-hot-loader';
+import './app.css';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import LoginPage from './components/LoginPage/LoginPage';
+import ChatLobby from './components/ChatLobby/ChatLobby';
+import ChatWindow from './components/ChatWindow/ChatWindow';
+import { ChatProvider } from './context/ChatContext.js';
+import { socket } from './services/socketService';
+import PrivateChatWindow from './components/PrivateChatWindow/PrivateChatWindow';
 
 
 class App extends Component {
@@ -24,10 +24,10 @@ class App extends Component {
     });
     socket.on('userlist', userList => {
       this.setState({ ...this.state, users: userList });
-    });
+    })
     socket.on('userdisconnected', response => {
       if (response) {
-          socket.emit('users');
+        socket.emit('users');
       }
     });
   }
@@ -35,12 +35,14 @@ class App extends Component {
     return (
       <ChatProvider value={this.state}>
         <div>
-          <Switch>
-            <Route exact path="/" component={LoginPage} />
-            <Route exact path="/lobby" component={ChatLobby} />
-            <Route exact path="/chatroom/:roomName" component={ChatWindow} />
-            <Route exact path="/:username" component={PrivateChatWindow} />
-          </Switch>
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/" component={LoginPage} />
+              <Route exact path="/lobby" component={ChatLobby} />
+              <Route exact path="/chatroom/:roomName" component={ChatWindow} />
+              <Route exact path="/:userName" component={PrivateChatWindow} />
+            </Switch>
+          </BrowserRouter>
         </div>
       </ChatProvider>
     );

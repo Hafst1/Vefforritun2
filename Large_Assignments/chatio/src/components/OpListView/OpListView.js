@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const OpListView = (props) => {
   return (
     <div>
-      <h6><strong>OP LIST</strong></h6>
+      <h6><strong>Op List</strong></h6>
       {
         Object.keys(props.ops).map((keyName, keyIndex) => <OpListViewItem key={keyIndex} op={props.ops[keyName]} room={props.room} />)
       }
@@ -27,5 +27,4 @@ OpListView.defaultProps = {
   room: 'chatroom'
 }
 
-
-export default OpListView; 
+export default OpListView;

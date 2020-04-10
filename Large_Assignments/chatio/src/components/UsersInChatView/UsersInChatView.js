@@ -26,5 +26,4 @@ UsersInChatView.defaultProps = {
   room: 'chatroom'
 }
 
-
 export default UsersInChatView;

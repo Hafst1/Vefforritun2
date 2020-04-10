@@ -1,7 +1,6 @@
-import React from 'react'
-import { socket } from '../../service/socketService';
+import React from 'react';
+import { socket } from '../../services/socketService';
 import PropTypes from 'prop-types';
-
 
 class BanListViewItem extends React.Component {
   unBan(room) {
@@ -9,11 +8,10 @@ class BanListViewItem extends React.Component {
       room: room,
       user: this.props.banned
     }
-    socket.emit('unban', unbanObj, (resp) => {
-      if (resp) {
+    socket.emit('unban', unbanObj, (response) => {
+      if (response) {
         console.log('un-ban user success');
-      }
-      else {
+      } else {
         console.log('You do not have permission to do unban user')
       }
     });
@@ -22,7 +20,7 @@ class BanListViewItem extends React.Component {
     return (
       <div>
         <p>{this.props.banned}</p>
-        <button type="button" className="btn btn-success btn-sm" onClick={() => this.unBan(this.props.room)}>UN-BAN</button>
+        <button type="button" className="btn btn-success btn-sm" onClick={() => this.unBan(this.props.room)}>Un-Ban</button>
       </div>
     );
   }

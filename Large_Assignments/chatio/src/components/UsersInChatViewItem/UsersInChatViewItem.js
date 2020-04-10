@@ -1,5 +1,5 @@
 import React from 'react';
-import { socket } from '../../service/socketService';
+import { socket } from '../../services/socketService';
 import PropTypes from 'prop-types';
 
 class UsersInChatViewItem extends React.Component {
@@ -46,9 +46,9 @@ class UsersInChatViewItem extends React.Component {
     return (
       <div className="user">
         <p>{this.props.user}</p>
-        <button type="button" className="btn btn-primary btn-sm" onClick={() => this.opUser(this.props.room)}>OP</button>
-        <button type="button" className="btn btn-primary btn-sm" onClick={() => this.kickUser(this.props.room)}>KICK</button>
-        <button type="button" className="btn btn-primary btn-sm" onClick={() => this.banUser(this.props.room)}>BAN</button>
+        <button type="button" className="btn btn-primary btn-sm" onClick={() => this.opUser(this.props.room)}>Op</button>
+        <button type="button" className="btn btn-primary btn-sm" onClick={() => this.kickUser(this.props.room)}>Kick</button>
+        <button type="button" className="btn btn-primary btn-sm" onClick={() => this.banUser(this.props.room)}>Ban</button>
       </div>
     );
   }
@@ -67,6 +67,5 @@ UsersInChatViewItem.defaultProps = {
   // Name of the room is 'chatroom' on default.
   room: 'chatroom'
 }
-
 
 export default UsersInChatViewItem;

@@ -1,3 +1,4 @@
+/* CSS styles */
 body {
   display: flex;
   justify-content: center;
@@ -8,10 +9,10 @@ body {
 #login-window {
   display: flex;
   flex-direction: column;
-  border: solid 2px;
+  /* border: solid 2px;
   margin: 120px;
   height: 350px;
-  width: 700px;
+  width: 700px; */
 }
 
 #login-header {
@@ -20,7 +21,7 @@ body {
   align-items: center;
   height: 15%;
   border-bottom: solid 2px;
-  background-color: #c3d1da;
+  background-color: #5abcf8;
 }
 
 #login-body {
@@ -56,7 +57,7 @@ body {
   align-items: center;
   border-bottom: solid 2px;
   height: 10%;
-  background-color: #c3d1da;
+  background-color: #5abcf8;
 }
 
 #lobby-body {
@@ -95,7 +96,7 @@ body {
   border-radius: 20px;
   margin: 15px;
   padding: 20px;
-  background-color: #c3d1da;
+  background-color: #5abcf8;
 }
 
 .room-view-item p {
@@ -224,22 +225,42 @@ body {
   height: 650px;
 }
 
+#private-chatroom {
+  width: 1250px;
+  height: 650px;
+  display: flex;
+  margin-top: 50px;
+}
+
 .private-chat-window {
   display: flex;
   flex-direction: column;
   border: solid 2px;
-  width: 1050px;
+  width: 950px;
   height: 650px;
-  margin-top: 50px;
+}
+
+#leave-private-chatroom-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+}
+
+#leave-private-chatroom-btn .btn {
+  height: 60px;
 }
 
 .chat-window-header {
   display: flex;
-  height: 10%;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   border-bottom: solid 2px;
-  background-color: #c3d1da;
+  background-color: #5abcf8;
+  padding-top: 15px;
+  height: 10%;
 }
 
 .chat-window-body {
@@ -272,7 +293,7 @@ body {
   margin-bottom: 20px;
   padding: 15px 10px;
   min-height: 70px;
-  background-color: #c3d1da;
+  background-color: #5abcf8;
 }
 
 .chat-window-input {

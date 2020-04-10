@@ -1,17 +1,16 @@
-import React from 'react'
+import React from 'react';
 import BanListViewItem from '../BanListViewItem/BanListViewItem';
 import PropTypes from 'prop-types';
-
 
 const BanListView = (props) => {
   return (
     <div>
-      <p>Ban List</p>
+      <h6><strong>Users in exile</strong></h6>
       {
         Object.keys(props.banned).map((keyName, keyIndex) => <BanListViewItem key={keyIndex} banned={props.banned[keyName]} room={props.room} />)
       }
     </div>
-  )
+  );
 }
 
 BanListView.propTypes = {

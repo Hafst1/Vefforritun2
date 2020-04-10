@@ -1,55 +1,56 @@
 import React from 'react';
-import { Redirect } from "react-router-dom";
-import { socket } from '../../service/socketService';
+import { Redirect } from 'react-router-dom';
+import { socket } from '../../services/socketService';
 
-class LoginPage extends React.Component {
+class LoginWindow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       nickname: '',
       redirect: false
-    }
+    };
   }
   renderRedirect = () => {
     if (this.state.redirect === true) {
-        return <Redirect to='/lobby' />
+      return <Redirect to='/lobby' />
     }
   }
   setNickname(nickname) {
-    if(nickname === '') {
+    if (nickname === '') {
       return false;
     }
     socket.emit('adduser', nickname, (response) => {
-      if(response === true) {
+      if (response === true) {
         socket.emit('users');
         socket.emit('rooms');
-        this.setState({redirect: true});
+        this.setState({ redirect: true });
       } else {
-        console.log("Something not working");
+        console.log("doesn't work");
       }
-    })
-    this.setState({nickname: ''});
+    });
+    this.setState({ nickname: '' });
   }
   render() {
-    const {nickname} = this.state;
+    const { nickname } = this.state;
     return (
-      <div id="login-page">
+      <div id="login-window">
         <div id="login-header">
-          <h3><strong>ChatIO</strong></h3>
+          <h3>ChatIo</h3>
         </div>
         <div id="login-body">
           <div className="form-group" id="login-form">
             <form>
               <label className="control-label" htmlFor="login-name">Pick Username:</label>
-              <input type="text" id="login-name" className="form-control" value={nickname} onChange={e => this.setState({nickname: e.target.value})} />
+              <input type="text" name="login-input" id="login-name" className="form-control" value={nickname}
+                onChange={e => this.setState({ nickname: e.target.value })} />
             </form>
-            <button type="button" className="btn btn-primary" onClick={() => this.setNickname(nickname)} >Submit</button>
+            <button type="button" className="btn btn-primary" onClick={() => this.setNickname(nickname)}>Submit</button>
             {this.renderRedirect()}
           </div>
-        </div> 
+        </div>
       </div>
     );
   }
-}
+};
 
-export default LoginPage;
+export default LoginWindow;

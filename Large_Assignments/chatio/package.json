@@ -24,11 +24,16 @@
     "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
     "react": "^16.5.2",
     "react-bootstrap4-modal": "^1.7.4",
     "react-dom": "^16.5.2",
     "react-hot-loader": "^4.3.11",
+    "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
+    "react-test-renderer": "^16.13.1",
+    "redux": "^4.0.5",
     "socket.io-client": "^2.3.0"
   }
 }

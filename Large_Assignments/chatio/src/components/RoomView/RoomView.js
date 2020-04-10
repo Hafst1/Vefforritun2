@@ -1,6 +1,6 @@
 import React from 'react';
 import RoomViewItem from '../RoomViewItem/RoomViewItem';
-import { ChatConsumer } from '../../context/ChatContext'
+import { ChatConsumer } from '../../context/ChatContext';
 
 const RoomView = () => {
   return (
@@ -11,7 +11,7 @@ const RoomView = () => {
         }
       </ChatConsumer>
     </div>
-  )
-}
+  );
+};
 
 export default RoomView;

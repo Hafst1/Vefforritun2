@@ -1,13 +1,26 @@
-import React from "react";
-import { socket } from "../../service/socketService";
+import React from 'react';
+import { socket } from '../../services/socketService';
 import Modal from 'react-bootstrap4-modal';
 import { Redirect } from 'react-router-dom';
-import OpListView from '../OpListView/OpListView'
+import OpListView from '../OpListView/OpListView';
 import BanListView from '../BanListView/BanListView';
 import UsersInChatView from '../UsersInChatView/UsersInChatView';
+import PropTypes from 'prop-types';
 
 class ChatWindow extends React.Component {
   componentDidMount() {
+    socket.on('servermessage', (event, roomName, userName) => {
+      const { room } = this.state;
+      if (event === 'quit') {
+        if (this.props.match.params.roomName in roomName) {
+          this.setState({ ...this.state, room: { ...room, messageHistory: [...room.messageHistory, this._editServerMessage(event, roomName, userName)] } });
+        }
+      } else {
+        if (roomName === this.props.match.params.roomName) {
+          this.setState({ ...this.state, room: { ...room, messageHistory: [...room.messageHistory, this._editServerMessage(event, roomName, userName)] } });
+        }
+      }
+    });
     socket.on('updateusers', (room, roomUsers, roomOps) => {
       if (room === this.props.match.params.roomName)
         this.setState({ ...this.state, room: { ...this.state.room, users: roomUsers, ops: roomOps } });
@@ -17,21 +30,26 @@ class ChatWindow extends React.Component {
         this.setState({ ...this.state, room: { ...this.state.room, messageHistory: this._editMessageHistory(roomMessageHistory) } });
       }
     });
-    socket.on('servermessage', (event, roomName, userName) => {
-      const { room } = this.state;
-      if (roomName === this.props.match.params.roomName || event === 'quit') {
-        this.setState({ ...this.state, room: { ...room, messageHistory: [...room.messageHistory, this._editServerMessage(event, roomName, userName)] } });
-      }
-    });
-    socket.on('updatetopic', (roomName, topic, userName, topicUpdated) => {
+    // socket.on('updatetopic', (roomName, topic, userName, topicUpdated) => {
+    //   const { room } = this.state;
+    //   if (roomName === this.props.match.params.roomName) {
+    //     if (topicUpdated) {
+    //       this.setState({ ...this.state, room: { ...room, topic: topic, messageHistory: [...room.messageHistory, this._editTopicMessage(userName, topic, roomName)] } });
+    //     } else {
+    //       this.setState({ ...this.state, room: { ...room, topic: topic } });
+    //     }
+    //   }
+    // });
+    socket.on('deopped', (roomName, deOppedUser, userName) => {
       const { room } = this.state;
       if (roomName === this.props.match.params.roomName) {
-        if (topicUpdated) {
-          this.setState({ ...this.state, room: { ...room, topic: topic, messageHistory: [...room.messageHistory, this._editTopicMessage(userName, topic, roomName)] } });
-        }
-        else {
-          this.setState({ ...this.state, room: { ...room, topic: topic } });
-        }
+        this.setState({ ...this.state, room: { ...room, messageHistory: [...room.messageHistory, this._editOpMessage(userName, "de-opped", deOppedUser, roomName)] } });
+      }
+    });
+    socket.on('opped', (roomName, oppedUser, userName) => {
+      const { room } = this.state;
+      if (roomName === this.props.match.params.roomName) {
+        this.setState({ ...this.state, room: { ...room, messageHistory: [...room.messageHistory, this._editOpMessage(userName, "opped", oppedUser, roomName)] } });
       }
     });
     socket.on('banned', (roomName, bannedUser, userName, newBannedList) => {
@@ -57,18 +75,6 @@ class ChatWindow extends React.Component {
         });
       }
     });
-    socket.on('deopped', (roomName, deOppedUser, userName) => {
-      const { room } = this.state;
-      if (roomName === this.props.match.params.roomName) {
-        this.setState({ ...this.state, room: { ...room, messageHistory: [...room.messageHistory, this._editOpMessage(userName, "de-opped", deOppedUser, roomName)] } });
-      }
-    });
-    socket.on('opped', (roomName, oppedUser, userName) => {
-      const { room } = this.state;
-      if (roomName === this.props.match.params.roomName) {
-        this.setState({ ...this.state, room: { ...room, messageHistory: [...room.messageHistory, this._editOpMessage(userName, "opped", oppedUser, roomName)] } });
-      }
-    });
     socket.on('kicked', (roomName, kickedUser, userName) => {
       const { room } = this.state;
       if (roomName === this.props.match.params.roomName) {
@@ -89,22 +95,20 @@ class ChatWindow extends React.Component {
   _editMessageHistory(messageHistory) {
     return messageHistory.map(m => `${m.timestamp} - ${m.nick} - ${m.message}`);
   }
-  _editTopicMessage(userName, topic, roomName) {
-    return `${userName} set the topic to '${topic}' in ${roomName}`;
-  }
+  // _editTopicMessage(userName, topic, roomName) {
+  //   return `${userName} set the topic to '${topic}' in ${roomName}`;
+  // }
   _editBanKickMessage(userName, action, bannedUser, roomName) {
     if (userName === bannedUser) {
       return `${userName} ${action} himself/herself from ${roomName}`;
-    }
-    else {
+    } else {
       return `${userName} ${action} ${bannedUser} from ${roomName}`;
     }
   }
   _editOpMessage(userName, action, deOppedUser, roomName) {
     if (userName === deOppedUser) {
       return `${userName} ${action} himself/herself in ${roomName}`;
-    }
-    else {
+    } else {
       return `${userName} ${action} ${deOppedUser} in ${roomName}`;
     }
   }
@@ -116,13 +120,11 @@ class ChatWindow extends React.Component {
   _editServerMessage(event, room, userName) {
     if (event === 'quit') {
       return `${userName} has disconnected from the server`;
-    }
-    else {
+    } else {
       if (room === this.props.match.params.roomName) {
         if (event === 'join') {
           return `${userName} has joined the chatroom`;
-        }
-        else if (event === 'part') {
+        } else if (event === 'part') {
           return `${userName} has left the chatroom`;
         }
       }
@@ -136,20 +138,22 @@ class ChatWindow extends React.Component {
         ops: {},
         banned: {},
         messageHistory: [],
-        topic: "No topics has been set for room..",
+        // topic: "No topics has been set for room..",
         password: '',
         locked: false
       },
       message: '',
-      newTopic: '',
+      // newTopic: '',
       newPassword: '',
-      topicModal: false,
+      // topicModal: false,
       passwordModal: false,
       redirect: false
     };
   }
   sendMessage(message) {
-    if (message === '') { return false; }
+    if (message === '') {
+      return false;
+    }
     var msgObj = {
       roomName: this.props.match.params.roomName,
       msg: message
@@ -164,23 +168,22 @@ class ChatWindow extends React.Component {
     socket.emit('rooms');
     this.setState({ ...this.state, redirect: true });
   }
-  changeTopic(newTopic) {
-    if (newTopic === '') { return false; }
-    var topicObj = {
-      room: this.props.match.params.roomName,
-      topic: newTopic
-    }
-    socket.emit('settopic', topicObj, (resp) => {
-      if (resp) {
-        socket.emit('rooms');
-        this.toggleModal(false, 'topicModal');
-      }
-      else {
-        console.log('You need to be an op to change topic');
-      }
-    });
-    this.setState({ ...this.state, newTopic: '' });
-  }
+  // changeTopic(newTopic) {
+  //   if (newTopic === '') { return false; }
+  //   var topicObj = {
+  //     room: this.props.match.params.roomName,
+  //     topic: newTopic
+  //   }
+  //   socket.emit('settopic', topicObj, (resp) => {
+  //     if (resp) {
+  //       socket.emit('rooms');
+  //       this.toggleModal(false, 'topicModal');
+  //     } else {
+  //       console.log('You need to be an op to change topic');
+  //     }
+  //   });
+  //   this.setState({ ...this.state, newTopic: '' });
+  // }
   changePassword(newPassword) {
     if (newPassword === '') { return false; }
     var passwordObj = {
@@ -191,8 +194,7 @@ class ChatWindow extends React.Component {
       if (resp) {
         socket.emit('rooms');
         this.toggleModal(false, 'passwordModal');
-      }
-      else {
+      } else {
         console.log('You need to be an op to change password');
       }
     });
@@ -205,8 +207,7 @@ class ChatWindow extends React.Component {
     socket.emit('removepassword', remObj, (resp) => {
       if (resp) {
         socket.emit('rooms');
-      }
-      else {
+      } else {
         console.log('You need to be an op to unlock chat');
       }
     })
@@ -219,8 +220,7 @@ class ChatWindow extends React.Component {
   toggleModal(inp, whichModal) {
     if (whichModal === "topicModal") {
       this.setState({ ...this.state, topicModal: inp });
-    }
-    else {
+    } else {
       this.setState({ ...this.state, passwordModal: inp });
     }
   }
@@ -228,7 +228,7 @@ class ChatWindow extends React.Component {
     socket.removeListener('updateusers');
     socket.removeListener('updatechat');
     socket.removeListener('servermessage');
-    socket.removeListener('updatetopic');
+    // socket.removeListener('updatetopic');
     socket.removeListener('banned');
     socket.removeListener('unbanned');
     socket.removeListener('deopped');
@@ -242,15 +242,16 @@ class ChatWindow extends React.Component {
     return (
       <div id="chatroom">
         <div id="buttons-list">
-          <button type="button" className="btn btn-danger" onClick={() => this.leaveRoom('leave')}>LEAVE ROOM</button>
-          <button type="button" className="btn btn-success" onClick={() => this.toggleModal(true, 'topicModal')}>CHANGE TOPIC</button>
-          <button type="button" className="btn btn-success" onClick={() => this.toggleModal(true, 'passwordModal')}>CHANGE PASSWORD</button>
-          <button type="button" className="btn btn-success" onClick={() => this.unlockRoom()}>UNLOCK ROOM</button>
+          <button type="button" className="btn btn-danger" onClick={() => this.leaveRoom('leave')}>Leave Room</button>
+          {/* <button type="button" className="btn btn-success" onClick={() => this.toggleModal(true, 'topicModal')}>CHANGE TOPIC</button> */}
+          <button type="button" className="btn btn-success" onClick={() => this.toggleModal(true, 'passwordModal')}>Change Password</button>
+          <button type="button" className="btn btn-success" onClick={() => this.unlockRoom()}>Unlock Room</button>
           {this.renderRedirect()}
         </div>
         <div className="group-chat-window">
           <div className="chat-window-header">
-            <h3><strong>{this.props.match.params.roomName}</strong></h3>
+            <h4><strong>{this.props.match.params.roomName}</strong></h4>
+            {/* <p>{room.topic}</p> */}
           </div>
           <div className="chat-window-body">
             <div className="chat-window-msg-inp">
@@ -260,8 +261,8 @@ class ChatWindow extends React.Component {
               <div className="chat-window-input">
                 <div className="input-group">
                   <input type="text" value={message} onChange={e => this.setState({ message: e.target.value })}
-                    placeholder="ENTER YOUR MESSAGE HERE..." />
-                  <button type="button" className="btn btn-primary" onClick={() => this.sendMessage(message)}>SEND</button>
+                    placeholder="Enter your message here..." />
+                  <button type="button" className="btn btn-primary" onClick={() => this.sendMessage(message)}>Send</button>
                 </div>
               </div>
             </div>
@@ -278,7 +279,7 @@ class ChatWindow extends React.Component {
             <BanListView banned={room.banned} room={this.props.match.params.roomName} />
           </div>
         </div>
-        <Modal visible={topicModal} id="topic-modal">
+        {/* <Modal visible={topicModal} id="topic-modal">
           <div className="modal-header">
             <h5 className="modal-title">CHANGE TOPIC</h5>
           </div>
@@ -287,29 +288,21 @@ class ChatWindow extends React.Component {
             <input type="text" name="change-topic" id="change-topic" className="form-control" value={newTopic} onChange={e => this.setState({ newTopic: e.target.value })} />
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" onClick={() => this.toggleModal(false, 'topicModal')}>
-              CANCEL
-                    </button>
-            <button type="button" className="btn btn-primary" onClick={() => this.changeTopic(newTopic)}>
-              SUBMIT
-                    </button>
+            <button type="button" className="btn btn-secondary" onClick={() => this.toggleModal(false, 'topicModal')}>Cancel</button>
+            <button type="button" className="btn btn-primary" onClick={() => this.changeTopic(newTopic)}>Submit</button>
           </div>
-        </Modal>
+        </Modal> */}
         <Modal visible={passwordModal} id="password-modal">
           <div className="modal-header">
-            <h5 className="modal-title">CHANGE PASSWORD</h5>
+            <h5 className="modal-title">Change Password</h5>
           </div>
           <div className="modal-body">
-            <label className="control-label" htmlFor="password">NEW PASSWORD:</label>
+            <label className="control-label" htmlFor="password">New Password:</label>
             <input type="password" name="change-password" id="change-password" className="form-control" value={newPassword} onChange={e => this.setState({ newPassword: e.target.value })} />
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" onClick={() => this.toggleModal(false, 'passwordModal')}>
-              CANCEL
-                    </button>
-            <button type="button" className="btn btn-primary" onClick={() => this.changePassword(newPassword)}>
-              SUBMIT
-                    </button>
+            <button type="button" className="btn btn-secondary" onClick={() => this.toggleModal(false, 'passwordModal')}>Cancel</button>
+            <button type="button" className="btn btn-primary" onClick={() => this.changePassword(newPassword)}>Submit</button>
           </div>
         </Modal>
       </div>
@@ -317,29 +310,20 @@ class ChatWindow extends React.Component {
   }
 };
 
-// ChatWindow.Title = () => (
-//     <h3>
-//         <strong>CHATIO</strong>
-//         {/* <span className="first">C</span>
-//         <span className="second">h</span>
-//         <span className="third">a</span>
-//         <span className="fourth">t</span>
-//         <span className="fifth">.</span>
-//         <span className="sixth">i</span>
-//         <span className="seventh">o</span> */}
-//     </h3>
-// );
-
 ChatWindow.Messages = props => (
   <div className="chat-window-message-cont">
     {props.messages.map((m, i) => <div key={i} className="message">{m}</div>)}
   </div>
 );
 
-// ChatWindow.Users = props => (
-//     <div className="users">
-//         {Object.keys(props.users).map((keyName, keyIndex) => <div key={keyIndex} className="user">{props.users[keyName]}</div>)}
-//     </div>
-// );
+ChatWindow.Messages.propTypes = {
+  // Array containing the message history of the room, required.
+  messages: PropTypes.array.isRequired
+}
+
+ChatWindow.Messages.defaultProps = {
+  // Array contains no messages on default.
+  messages: []
+}
 
 export default ChatWindow;
